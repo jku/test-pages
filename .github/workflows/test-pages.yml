@@ -1,0 +1,43 @@
+name: Test Pages publish latency
+
+on:
+  schedule:
+    - cron:  '*/5 * * * *'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  deploy:
+    permissions:
+      pages: write
+      id-token: write # for authenticating to GH Pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - id: payload
+        run: |
+          echo ${{github.run_id}} > runid
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v2
+          with:
+            path: "./"     
+
+      - id: deployment
+        uses: actions/deploy-pages@9dbe3824824f8a1377b8e298bafde1a50ede43e5 # v2.0.4
+
+  test-pages:
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+      - id: test
+        run: |
+          curl -o runid https://jku.github.io/test-pages/runid
+          read RUN_ID < runid
+          echo "expected runid ${{ github.run_id }}."
+          echo "got runid $RUN_ID."
+          [ "${{ github.run_id }}" = "$RUN_ID" ]
+
