@@ -22,9 +22,9 @@ jobs:
           echo ${{github.run_id}} > runid
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v2
-          with:
-            path: "./"     
+        uses: actions/upload-pages-artifact@v3.0.0
+        with:
+          path: "./"
 
       - id: deployment
         uses: actions/deploy-pages@9dbe3824824f8a1377b8e298bafde1a50ede43e5 # v2.0.4
