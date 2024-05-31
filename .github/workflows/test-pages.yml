@@ -15,11 +15,12 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+
       - id: payload
         run: |
           mkdir source
-          echo "# Markdown test" >> source/index.md
-          echo "root ([json](8.root.json))" >> source/index.md
+          cp index.md source/index.md
 
       - uses: actions/jekyll-build-pages@b178f9334b208360999a0a57b523613563698c66 # 1.0.12
         with:
