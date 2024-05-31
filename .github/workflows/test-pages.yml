@@ -18,7 +18,7 @@ jobs:
       - id: payload
         run: |
           mkdir source
-          echo # Markdown test >> source/index.md
+          echo "# Markdown test" >> source/index.md
           echo "" >> source/index.md
           echo "[markdown link](testfile)" >> source/index.md
           echo "" >> source/index.md
