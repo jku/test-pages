@@ -1,8 +1,6 @@
-name: Test Pages publish latency
+name: Test Pages publish
 
 on:
-  schedule:
-    - cron:  '*/5 * * * *'
   workflow_dispatch:
 
 permissions: {}
@@ -19,25 +17,23 @@ jobs:
     steps:
       - id: payload
         run: |
-          echo ${{github.run_id}} > runid
+          mkdir source
+          echo # Markdown test >> source/index.md
+          echo "" >> source/index.md
+          echo [markdown link](testfile) >> source/index.md
+          echo "" >> source/index.md
+          echo <a href="testfile">pure html link</a> >> source/index.md
+          echo "" >> source/index.md
+
+      - uses: actions/jekyll-build-pages@b178f9334b208360999a0a57b523613563698c66 # 1.0.12
+        with:
+          source: source
+          destination: build-jekyll
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3.0.0
         with:
-          path: "./"
+          path: build-jekyll
 
       - id: deployment
         uses: actions/deploy-pages@v4.0.3
-
-  test-pages:
-    runs-on: ubuntu-latest
-    needs: deploy
-    steps:
-      - id: test
-        run: |
-          curl -o runid https://jku.github.io/test-pages/runid
-          read RUN_ID < runid
-          echo "expected runid ${{ github.run_id }}."
-          echo "got runid $RUN_ID."
-          [ "${{ github.run_id }}" = "$RUN_ID" ]
-
