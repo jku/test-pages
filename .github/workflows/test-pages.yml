@@ -19,11 +19,7 @@ jobs:
         run: |
           mkdir source
           echo "# Markdown test" >> source/index.md
-          echo "" >> source/index.md
-          echo "[markdown link](testfile)" >> source/index.md
-          echo "" >> source/index.md
-          echo "<a href=\"testfile\">pure html link</a>" >> source/index.md
-          echo "" >> source/index.md
+          echo "root ([json](8.root.json))" >> source/index.md
 
       - uses: actions/jekyll-build-pages@b178f9334b208360999a0a57b523613563698c66 # 1.0.12
         with:
