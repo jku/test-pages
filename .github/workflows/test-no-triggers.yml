@@ -1,0 +1,17 @@
+name: Sync Published Root Signing to Preprod
+
+permissions: {}
+
+on:
+  #workflow_dispatch:
+  #push:
+  #  branches:
+  #    - main
+  #  paths:
+  #    - 'repository/repository/root.json'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo RUN
